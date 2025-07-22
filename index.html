@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Materiales y Transformación - PRAE Reciclaje</title>
+
+  <link rel="icon" href="assets/empresarial.png" type="image/png">
+
+  <!-- Fuente bonita desde Google Fonts -->
+   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background-color: #eef3f6;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #64c27b;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    section {
+      padding: 20px;
+    }
+    h2 {
+      color: #64c27b;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #c7e6dd;
+    }
+    #mensajeInteractivo {
+      display: none;
+      padding: 15px;
+      margin-top: 20px;
+      background-color: #d1f0d7;
+      border: 1px solid #64c27b;
+      color: #64c27b;
+      text-align: center;
+      font-weight: bold;
+    }
+    button {
+      background-color: #64c27b;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #64c27b;
+    }
+    footer {
+      background-color: #64c27b;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="assets/empresarial.png" alt="Logo Institución Empresarial" class="logo-principal">
+    <h1>Proyecto PRAE: Reciclaje y Transformación de Materiales</h1>
+    <p>Grado 10 | II Periodo | Fecha: mayo 23 de 2025</p>
+    <p>Docente: Pablo Andrés Hernández Arbeláez</p>
+    <p>Créditos: Juan Arenas</p>
+
+  </header>
+
+  <section>
+    <h2>¿Qué son los materiales?</h2>
+    <p>Los materiales son sustancias que provienen del ambiente o son creadas por el ser humano para la fabricación de productos. Se dividen según su origen en naturales, artificiales, compuestos y más.</p>
+
+    <h2>Tabla Comparativa de Materiales</h2>
+    <table>
+      <tr>
+        <th>Tipo</th>
+        <th>Origen</th>
+        <th>Ejemplos</th>
+        <th>Propiedades</th>
+        <th>Ventajas</th>
+        <th>Desventajas</th>
+        <th>Técnicas</th>
+      </tr>
+      <tr>
+        <td>Metales</td>
+        <td>Mineral</td>
+        <td>Hierro, cobre</td>
+        <td>Conductores, resistentes</td>
+        <td>Maleables, reciclables</td>
+        <td>Pesados, corrosivos</td>
+        <td>Forja, fundición</td>
+      </tr>
+      <tr>
+        <td>Cerámicos</td>
+        <td>Mineral</td>
+        <td>Vidrio, arcilla</td>
+        <td>Aislantes, duros</td>
+        <td>Resistentes al calor</td>
+        <td>Frágiles</td>
+        <td>Moldeo, cocción</td>
+      </tr>
+      <tr>
+        <td>Polímeros</td>
+        <td>Orgánico</td>
+        <td>Plásticos, caucho</td>
+        <td>Ligeros, flexibles</td>
+        <td>Versátiles, baratos</td>
+        <td>Contaminantes</td>
+        <td>Inyección, extrusión</td>
+      </tr>
+      <tr>
+        <td>Compuestos</td>
+        <td>Combinado</td>
+        <td>Fibra de vidrio</td>
+        <td>Propiedades mixtas</td>
+        <td>Alta resistencia</td>
+        <td>Difícil de reciclar</td>
+        <td>Moldeo, armado</td>
+      </tr>
+      <tr>
+        <td>Semiconductores</td>
+        <td>Artificial</td>
+        <td>Silicio</td>
+        <td>Sensibles, eléctricos</td>
+        <td>Base de la electrónica</td>
+        <td>Alta pureza requerida</td>
+        <td>Fotolitografía</td>
+      </tr>
+      <tr>
+        <td>Madera</td>
+        <td>Vegetal</td>
+        <td>Pino, roble</td>
+        <td>Ligera, natural</td>
+        <td>Renovable</td>
+        <td>Inflamable</td>
+        <td>Aserrado, pulido</td>
+      </tr>
+    </table>
+
+    <!-- Botones interactivos -->
+    <button onclick="mostrarMensaje()">Ver mensaje sobre reciclaje</button>
+    <button onclick="toggleAudio()">Pausar/Reproducir canción</button>
+    <div id="mensajeInteractivo">¡Reciclar materiales ayuda a proteger el planeta y reduce la contaminación!</div>
+  </section>
+
+  <!-- Audio que se reproduce automáticamente -->
+  <audio id="audioReproducir" autoplay loop>
+    <source src="himno.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <footer>
+    <p>Institución Educativa Empresarial - Dosquebradas</p>
+    <p><a href="https://www.ieempresarial.edu.co" style="color: white;">www.ieempresarial.edu.co</a></p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
