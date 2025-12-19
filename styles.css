@@ -1,0 +1,232 @@
+:root {
+    --primary: #2a2a72;
+    --secondary: #009ffd;
+    --accent: #00ff88;
+    --dark: #1a1a1a;
+    --light: #ffffff;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--dark);
+    color: var(--light);
+    line-height: 1.6;
+}
+
+.navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.navbar a {
+    color: var(--light);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.navbar a:hover {
+    color: var(--accent);
+}
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+}
+
+.hero-content {
+    flex: 1;
+    padding-right: 2rem;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    animation: fadeInUp 1s ease;
+}
+
+.tagline {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    animation: fadeInUp 1s ease 0.2s;
+}
+
+.cta-button {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border: none;
+    background: var(--accent);
+    color: var(--dark);
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+}
+
+.services-grid, .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 4rem 5%;
+}
+
+.service-card, .product-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.product-image {
+    position: relative;
+    margin: -2rem -2rem 1rem -2rem;
+    padding: 2rem;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 120px;
+    height: 120px;
+    transition: transform 0.5s;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+}
+
+.hover-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.product-card:hover .hover-info {
+    opacity: 1;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.features span {
+    transition: color 0.3s;
+}
+
+.product-card:hover .features span {
+    color: var(--accent);
+}
+
+.buy-button {
+    background: linear-gradient(45deg, var(--accent), var(--secondary));
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    color: var(--dark);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    transform: translateY(0);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.buy-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.testimonials {
+    padding: 4rem 5%;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.testimonial-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.testimonial-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .hero-image {
+        margin-top: 2rem;
+    }
+    
+    .navbar ul {
+        display: none;
+    }
+}
