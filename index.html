@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verse Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #0084ff;
+  --blue-bright: #38bdf8;
+  --blue-glow: rgba(0,132,255,0.5);
+  --bg-deep: #020617;
+  --bg-card: rgba(7, 18, 43, 0.8);
+  --text: #ffffff;
+  --text-muted: rgba(255,255,255,0.55);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-deep);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,100,255,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 90% 80%, rgba(0,80,200,0.10) 0%, transparent 60%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 520px;
+  padding: 0 20px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* BANNER */
+.banner {
+  width: 100%;
+  margin-top: 32px;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 1px rgba(0,132,255,0.25);
+  pointer-events: none;
+}
+
+.banner img {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+}
+
+.banner-glow {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 60px;
+  background: radial-gradient(ellipse, rgba(0,132,255,0.35) 0%, transparent 70%);
+  filter: blur(12px);
+  pointer-events: none;
+}
+
+/* PROFILE */
+.profile {
+  margin-top: 28px;
+  text-align: center;
+}
+
+.profile-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.profile-tag {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--blue-bright);
+  opacity: 0.8;
+}
+
+.profile-bio {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* DIVIDER */
+.divider {
+  width: 100%;
+  margin: 28px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(0,132,255,0.3), transparent);
+}
+
+.divider-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 8px var(--blue);
+}
+
+/* BUTTONS */
+.links {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.link-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: white;
+  background: var(--bg-card);
+  border: 1px solid rgba(0,132,255,0.18);
+  backdrop-filter: blur(12px);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.link-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,132,255,0.08) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.link-btn:hover {
+  transform: translateY(-3px) scale(1.01);
+  border-color: rgba(0,132,255,0.55);
+  box-shadow: 0 8px 30px rgba(0,100,255,0.25), 0 0 0 1px rgba(0,132,255,0.2);
+}
+
+.link-btn:hover::before {
+  opacity: 1;
+}
+
+.link-btn:active {
+  transform: scale(0.98);
+}
+
+.btn-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-icon.wpp {
+  background: linear-gradient(135deg, #00a854, #007a3d);
+  box-shadow: 0 4px 14px rgba(0,168,84,0.35);
+}
+
+.btn-icon.courses {
+  background: linear-gradient(135deg, #0084ff, #0050c8);
+  box-shadow: 0 4px 14px rgba(0,132,255,0.35);
+}
+
+.btn-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: white;
+}
+
+.btn-text {
+  flex: 1;
+}
+
+.btn-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.btn-sublabel {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.btn-arrow {
+  color: rgba(255,255,255,0.3);
+  transition: transform 0.25s, color 0.25s;
+}
+
+.link-btn:hover .btn-arrow {
+  transform: translateX(4px);
+  color: var(--blue-bright);
+}
+
+/* WPP GROUP */
+.wpp-group {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid rgba(0,168,84,0.2);
+  border-radius: 14px;
+  padding: 14px 16px;
+  backdrop-filter: blur(12px);
+}
+
+.wpp-group-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #4ade80;
+  opacity: 0.8;
+  margin-bottom: 12px;
+}
+
+.wpp-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.wpp-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 8px;
+  border-radius: 10px;
+  background: rgba(0,168,84,0.08);
+  border: 1px solid rgba(0,168,84,0.2);
+  text-decoration: none;
+  color: white;
+  transition: all 0.22s;
+}
+
+.wpp-btn:hover {
+  background: rgba(0,168,84,0.18);
+  border-color: rgba(0,168,84,0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,168,84,0.2);
+}
+
+.wpp-num-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00a854, #007a3d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0,168,84,0.3);
+}
+
+.wpp-num-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: white;
+}
+
+.wpp-num-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.8);
+}
+
+/* SOCIAL ROW */
+.social-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+.social-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 8px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--bg-card);
+  transition: all 0.22s;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.social-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: white;
+  transition: transform 0.22s;
+}
+
+.social-btn:hover svg { transform: scale(1.15); }
+
+.social-btn.yt { border-color: rgba(255,0,0,0.2); }
+.social-btn.yt:hover { background: rgba(255,0,0,0.1); border-color: rgba(255,0,0,0.5); box-shadow: 0 6px 20px rgba(255,0,0,0.15); transform: translateY(-2px); }
+.social-btn.yt svg { fill: #ff4444; }
+
+.social-btn.ig { border-color: rgba(225,48,108,0.2); }
+.social-btn.ig:hover { background: rgba(225,48,108,0.1); border-color: rgba(225,48,108,0.5); box-shadow: 0 6px 20px rgba(225,48,108,0.15); transform: translateY(-2px); }
+.social-btn.ig svg { fill: #e1306c; }
+
+.social-btn.tt { border-color: rgba(255,255,255,0.1); }
+.social-btn.tt:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.3); box-shadow: 0 6px 20px rgba(0,0,0,0.3); transform: translateY(-2px); }
+
+/* SECTION TITLE */
+.section-header {
+  width: 100%;
+  margin-top: 44px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(0,132,255,0.13), rgba(0,132,255,0.27));
+  border: 1px solid rgba(0,132,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue-bright);
+}
+
+.section-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.section-title-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--blue-bright);
+}
+
+/* SETUP GRID */
+.setup {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid rgba(0,132,255,0.12);
+  border-radius: 12px;
+  padding: 14px 16px;
+  backdrop-filter: blur(10px);
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0,132,255,0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.card:hover {
+  border-color: rgba(0,132,255,0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,80,200,0.15);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--blue-bright);
+  opacity: 0.7;
+  margin-bottom: 5px;
+}
+
+.card-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.4;
+}
+
+/* FOOTER */
+footer {
+  margin-top: 52px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 1px;
+}
+
+/* ENTRANCE ANIMATION */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.banner         { animation: fadeUp 0.6s ease both; }
+.profile        { animation: fadeUp 0.6s 0.1s ease both; }
+.divider        { animation: fadeUp 0.5s 0.2s ease both; }
+.links          { animation: fadeUp 0.5s 0.25s ease both; }
+.section-header { animation: fadeUp 0.5s 0.3s ease both; }
+.setup          { animation: fadeUp 0.5s 0.35s ease both; }
+footer          { animation: fadeUp 0.5s 0.4s ease both; }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <!-- BANNER -->
+  <div class="banner">
+    <img src="Verse.jpeg" alt="Verse Edition">
+    <div class="banner-glow"></div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="profile">
+    <div class="profile-name">Verse Edition</div>
+    <div class="profile-tag">Edición · Diseño · Cursos</div>
+    <p class="profile-bio">Diseños, animaciones y herramientas listas para usar en TikTok, streams y redes sociales.</p>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- LINKS -->
+  <div class="links">
+
+    <a class="link-btn" href="https://verseedition.com/cursos/" target="_blank">
+      <div class="btn-icon courses">
+        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+      </div>
+      <div class="btn-text">
+        <div class="btn-label">Cursos</div>
+        <div class="btn-sublabel">Aprende edición profesional</div>
+      </div>
+      <div class="btn-arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+
+    <!-- WhatsApp group -->
+    <div class="wpp-group">
+      <div class="wpp-group-label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#38bdf8"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        WhatsApp
+      </div>
+      <div class="wpp-row">
+        <a class="wpp-btn" href="https://wa.me/51993837268" target="_blank">
+          <div class="wpp-num-icon">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          </div>
+          <span class="wpp-num-label">Contacto 1</span>
+        </a>
+        <a class="wpp-btn" href="https://wa.me/51976238814" target="_blank">
+          <div class="wpp-num-icon">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          </div>
+          <span class="wpp-num-label">Contacto 2</span>
+        </a>
+        <a class="wpp-btn" href="https://wa.me/51999247629" target="_blank">
+          <div class="wpp-num-icon">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          </div>
+          <span class="wpp-num-label">Contacto 3</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Social row -->
+    <div class="social-row">
+      <a class="social-btn yt" href="https://www.youtube.com/@verseffx" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span>YouTube</span>
+      </a>
+      <a class="social-btn ig" href="https://www.instagram.com/verse.ffx/" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        <span>Instagram</span>
+      </a>
+      <a class="social-btn tt" href="https://www.tiktok.com/@verse.edition" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+        <span>TikTok</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- SETUP SECTION -->
+  <div class="section-header">
+    <div class="section-icon">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 11H4V9h8v6zm8 0h-6V9h6v6z"/></svg>
+    </div>
+    <div class="section-title-text">Setup de Edición</div>
+  </div>
+
+  <div class="setup">
+    <div class="card">
+      <div class="card-label">Placa Madre</div>
+      <div class="card-value">ROG STRIX Z690-E GAMING WIFI</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Procesador</div>
+      <div class="card-value">Intel Core i9 14900KF 3.20 GHz</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Tarjeta de Video</div>
+      <div class="card-value">RTX 5060 Ti 16GB ASUS Prime</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Memoria RAM</div>
+      <div class="card-value">DDR5 DOMINATOR RGB 32GB 6400MHz</div>
+    </div>
+    <div class="card">
+      <div class="card-label">SSD Principal</div>
+      <div class="card-value">Samsung 980 PRO 2TB NVMe Gen4</div>
+    </div>
+    <div class="card">
+      <div class="card-label">SSD Secundario</div>
+      <div class="card-value">Kingston 1TB</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Refrigeración</div>
+      <div class="card-value">Corsair iCUE H150i ELITE LCD 360mm</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Fuente de Poder</div>
+      <div class="card-value">ROG THOR 850W Platinum II</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
